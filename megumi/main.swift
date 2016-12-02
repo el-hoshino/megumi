@@ -66,12 +66,23 @@ func parseCommand() {
 		return
 	}
 	
-	let originalURLString = arguments[0]
-	let encodedURLString = (try? getEncodedURLString(from: originalURLString)) ?? originalURLString
+	let argument = arguments[0]
 	
-	printResult(encodedURLString)
-	
-	copyStringToPasteboard(string: encodedURLString)
+	switch argument {
+	case "-h", "--help":
+		printHelp()
+		
+	default:
+		do {
+			let encodedURLString = try getEncodedURLString(from: argument)
+			printResult(encodedURLString)
+			copyStringToPasteboard(string: encodedURLString)
+			
+		} catch {
+			printError()
+		}
+		
+	}
 	
 }
 
