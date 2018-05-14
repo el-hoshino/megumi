@@ -61,11 +61,11 @@ private func getEncodedURLString(from string: String) throws -> String {
 
 private func copyStringToPasteboard(string: String) {
 	
-	let board = NSPasteboard.general()
+	let board = NSPasteboard.general
 	board.clearContents()
 	
 	let item = NSPasteboardItem()
-	item.setString(string, forType: NSPasteboardTypeString)
+	item.setString(string, forType: .string)
 	board.writeObjects([item])
 	
 }
