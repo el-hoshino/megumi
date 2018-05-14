@@ -8,13 +8,40 @@
 
 import Cocoa
 
+private let version = "0.1.1"
+
+private extension CharacterSet {
+	static func + (lhs: CharacterSet, rhs: CharacterSet) -> CharacterSet {
+		return lhs.union(rhs)
+	}
+}
+
+private let urlAllowed: CharacterSet = {
+	let urlQuery = CharacterSet.urlQueryAllowed
+	let urlSymbols = CharacterSet(charactersIn: ":/?&#")
+	return urlQuery + urlSymbols
+}()
+
+private func printVersion() {
+	
+	let versionMessage = version
+	print(versionMessage)
+	
+}
+
 private func printHelp() {
 	
-	let help =
-		"megumi is a URL string encoder.\n" +
-			"\n" +
-			"Usage:\n" +
-	"\t$ megumi URL\n"
+	let help = """
+		megumi is a URL string encoder.
+		Usage:
+		$ megumi URL
+			encode URL with percentage encoding
+		
+		$ megumi option
+			available options:
+			-h / --help: print help
+			-v / --version: print version
+		"""
 	
 	print(help)
 	
@@ -39,7 +66,7 @@ private func getEncodedURLString(from string: String) throws -> String {
 		case UnableToGetEncodedString(originalString: String)
 	}
 	
-	guard let encodedString = string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+	guard let encodedString = string.addingPercentEncoding(withAllowedCharacters: urlAllowed) else {
 		throw Error.UnableToGetEncodedString(originalString: string)
 	}
 	
@@ -49,11 +76,11 @@ private func getEncodedURLString(from string: String) throws -> String {
 
 private func copyStringToPasteboard(string: String) {
 	
-	let board = NSPasteboard.general()
+	let board = NSPasteboard.general
 	board.clearContents()
 	
 	let item = NSPasteboardItem()
-	item.setString(string, forType: NSPasteboardTypeString)
+	item.setString(string, forType: .string)
 	board.writeObjects([item])
 	
 }
@@ -71,6 +98,9 @@ func parseCommand() {
 	switch argument {
 	case "-h", "--help":
 		printHelp()
+		
+	case "-v", "--version":
+		printVersion()
 		
 	default:
 		do {
