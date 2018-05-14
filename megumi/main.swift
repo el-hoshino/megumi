@@ -22,11 +22,11 @@ private let urlAllowed: CharacterSet = {
 
 private func printHelp() {
 	
-	let help =
-		"megumi is a URL string encoder.\n" +
-			"\n" +
-			"Usage:\n" +
-	"\t$ megumi URL\n"
+	let help = """
+		megumi is a URL string encoder.
+		Usage:
+		megumi URL
+		"""
 	
 	print(help)
 	
