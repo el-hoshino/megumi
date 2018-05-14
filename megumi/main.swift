@@ -8,6 +8,8 @@
 
 import Cocoa
 
+private let version = "0.1.1"
+
 private extension CharacterSet {
 	static func + (lhs: CharacterSet, rhs: CharacterSet) -> CharacterSet {
 		return lhs.union(rhs)
@@ -16,16 +18,29 @@ private extension CharacterSet {
 
 private let urlAllowed: CharacterSet = {
 	let urlQuery = CharacterSet.urlQueryAllowed
-	let urlSymbols = CharacterSet.init(charactersIn: ":/?&#")
+	let urlSymbols = CharacterSet(charactersIn: ":/?&#")
 	return urlQuery + urlSymbols
 }()
+
+private func printVersion() {
+	
+	let versionMessage = version
+	print(versionMessage)
+	
+}
 
 private func printHelp() {
 	
 	let help = """
 		megumi is a URL string encoder.
 		Usage:
-		megumi URL
+		$ megumi URL
+			encode URL with percentage encoding
+		
+		$ megumi option
+			available options:
+			-h / --help: print help
+			-v / --version: print version
 		"""
 	
 	print(help)
@@ -83,6 +98,9 @@ func parseCommand() {
 	switch argument {
 	case "-h", "--help":
 		printHelp()
+		
+	case "-v", "--version":
+		printVersion()
 		
 	default:
 		do {
