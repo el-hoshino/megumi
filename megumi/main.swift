@@ -9,15 +9,15 @@
 import Cocoa
 
 private extension CharacterSet {
-    static func + (lhs: CharacterSet, rhs: CharacterSet) -> CharacterSet {
-        return lhs.union(rhs)
-    }
+	static func + (lhs: CharacterSet, rhs: CharacterSet) -> CharacterSet {
+		return lhs.union(rhs)
+	}
 }
 
 private let urlAllowed: CharacterSet = {
-    let urlQuery = CharacterSet.urlQueryAllowed
-    let urlSymbols = CharacterSet.init(charactersIn: ":/?&#")
-    return urlQuery + urlSymbols
+	let urlQuery = CharacterSet.urlQueryAllowed
+	let urlSymbols = CharacterSet.init(charactersIn: ":/?&#")
+	return urlQuery + urlSymbols
 }()
 
 private func printHelp() {
