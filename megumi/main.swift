@@ -8,6 +8,18 @@
 
 import Cocoa
 
+private extension CharacterSet {
+    static func + (lhs: CharacterSet, rhs: CharacterSet) -> CharacterSet {
+        return lhs.union(rhs)
+    }
+}
+
+private let urlAllowed: CharacterSet = {
+    let urlQuery = CharacterSet.urlQueryAllowed
+    let urlSymbols = CharacterSet.init(charactersIn: ":/?&#")
+    return urlQuery + urlSymbols
+}()
+
 private func printHelp() {
 	
 	let help =
@@ -39,7 +51,7 @@ private func getEncodedURLString(from string: String) throws -> String {
 		case UnableToGetEncodedString(originalString: String)
 	}
 	
-	guard let encodedString = string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+	guard let encodedString = string.addingPercentEncoding(withAllowedCharacters: urlAllowed) else {
 		throw Error.UnableToGetEncodedString(originalString: string)
 	}
 	
