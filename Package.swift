@@ -32,7 +32,7 @@ let package = Package(
             name: "MegumiLib",
             dependencies: []),
         .testTarget(
-            name: "megumiTests",
-            dependencies: ["megumi"]),
+            name: "MegumiLibTests",
+            dependencies: ["MegumiLib"]),
     ]
 )
