@@ -11,8 +11,10 @@ extension CharacterSet {
     
     static var urlAllowed: CharacterSet {
         
-        // `CharacterSet.urlQueryAllowed` doesn't contain `"#"` character, which is often used in URLs as scrolling ID
-        return .urlQueryAllowed.union(.init(charactersIn: "#"))
+        // `CharacterSet.urlQueryAllowed` doesn't contain `"#"` and `"%"` character,
+        // which the former is often used in URLs as scrolling ID,
+        // and the latter is often used for escaping non-ascii characters.
+        return .urlQueryAllowed.union(.init(charactersIn: "#%"))
         
     }
     

@@ -5,9 +5,9 @@ final class CharacterSetTests: XCTestCase {
     
     func test_urlAllowed() throws {
         
-        XCTContext.runActivity(named: "Make sure CharacterSet.urlAllowed is equal to CharacterSet.urlQueryAllowed + `#`") { _ in
+        XCTContext.runActivity(named: "Make sure CharacterSet.urlAllowed is equal to CharacterSet.urlQueryAllowed + `#` + `%`") { _ in
             XCTAssertNotEqual(CharacterSet.urlAllowed, CharacterSet.urlQueryAllowed)
-            XCTAssertEqual(CharacterSet.urlAllowed, CharacterSet.urlQueryAllowed.union(.init(charactersIn: "#")))
+            XCTAssertEqual(CharacterSet.urlAllowed, CharacterSet.urlQueryAllowed.union(.init(charactersIn: "#%")))
         }
         
         XCTContext.runActivity(named: "Make sure CharacterSet.urlAllowed contains all characters needed to represent a url") { _ in
