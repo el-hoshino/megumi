@@ -19,6 +19,13 @@ final class NSPasteboardTests: XCTestCase {
         XCTAssertEqual(pasteboard.pasteboardItems?.count, 1)
         XCTAssertEqual(pasteboard.pasteboardItems?.first?.string(forType: .string), "abc")
         
+        // According to Apple official document, it's required to clear exist pasteboard contents,
+        // so `pasteboardItems?.count` should only be `0` if nothing exists, or `1` if any item exists.
+        // https://developer.apple.com/documentation/appkit/nspasteboard/1533599-clearcontents#discussion
+        pasteboard.addString("def")
+        XCTAssertEqual(pasteboard.pasteboardItems?.count, 1)
+        XCTAssertEqual(pasteboard.pasteboardItems?.first?.string(forType: .string), "def")
+        
         pasteboard.releaseGlobally()
         
     }

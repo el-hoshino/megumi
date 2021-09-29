@@ -11,9 +11,13 @@ extension NSPasteboard {
     
     public func addString(_ string: String) {
         
-        let item = NSPasteboardItem()
-        item.setString(string, forType: .string)
-        writeObjects([item])
+        // Ref: https://developer.apple.com/documentation/appkit/nspasteboard/1533599-clearcontents#discussion
+        clearContents()
+        
+        guard setString(string, forType: .string) else {
+            print("Failed to copy item to pasteboard.")
+            exit(EXIT_FAILURE)
+        }
         
     }
     
