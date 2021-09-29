@@ -49,17 +49,6 @@ private func printResult(_ result: String) {
 	
 }
 
-private func copyStringToPasteboard(string: String) {
-	
-	let board = NSPasteboard.general
-	board.clearContents()
-	
-	let item = NSPasteboardItem()
-	item.setString(string, forType: .string)
-	board.writeObjects([item])
-	
-}
-
 func parseCommand() {
 	
 	let arguments = Array(CommandLine.arguments.dropFirst())
@@ -81,7 +70,7 @@ func parseCommand() {
 		do {
             let encodedURLString = try argument.encodedURLString()
 			printResult(encodedURLString)
-			copyStringToPasteboard(string: encodedURLString)
+            NSPasteboard.general.addString(encodedURLString)
 			
 		} catch {
 			printError()
