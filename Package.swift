@@ -10,6 +10,10 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
+        .library(
+            name: "MegumiLib",
+            type: .static,
+            targets: ["MegumiLib"]),
         .executable(
             name: "megumi",
             targets: ["megumi"]),
@@ -23,6 +27,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "megumi",
+            dependencies: ["MegumiLib"]),
+        .target(
+            name: "MegumiLib",
             dependencies: []),
         .testTarget(
             name: "megumiTests",

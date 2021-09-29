@@ -7,20 +7,9 @@
 //
 
 import Cocoa
+import MegumiLib
 
 private let version = "0.1.1"
-
-private extension CharacterSet {
-	static func + (lhs: CharacterSet, rhs: CharacterSet) -> CharacterSet {
-		return lhs.union(rhs)
-	}
-}
-
-private let urlAllowed: CharacterSet = {
-	let urlQuery = CharacterSet.urlQueryAllowed
-	let urlSymbols = CharacterSet(charactersIn: ":/?&#")
-	return urlQuery + urlSymbols
-}()
 
 private func printVersion() {
 	
@@ -60,20 +49,6 @@ private func printResult(_ result: String) {
 	
 }
 
-private func getEncodedURLString(from string: String) throws -> String {
-	
-	enum Error: Swift.Error {
-		case UnableToGetEncodedString(originalString: String)
-	}
-	
-	guard let encodedString = string.addingPercentEncoding(withAllowedCharacters: urlAllowed) else {
-		throw Error.UnableToGetEncodedString(originalString: string)
-	}
-	
-	return encodedString
-	
-}
-
 private func copyStringToPasteboard(string: String) {
 	
 	let board = NSPasteboard.general
@@ -104,7 +79,7 @@ func parseCommand() {
 		
 	default:
 		do {
-			let encodedURLString = try getEncodedURLString(from: argument)
+            let encodedURLString = try argument.encodedURLString()
 			printResult(encodedURLString)
 			copyStringToPasteboard(string: encodedURLString)
 			
