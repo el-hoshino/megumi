@@ -8,76 +8,32 @@
 
 import Cocoa
 import MegumiLib
+import ArgumentParser
 
-private let version = "0.1.1"
-
-private func printVersion() {
-	
-	let versionMessage = version
-	print(versionMessage)
-	
+struct Megumi: ParsableCommand {
+    
+    @Argument(help: "The URL String to encode.")
+    var urlString: String
+    
+    @Flag(help: "Don't copy the result to pasteboard")
+    var noCopy: Bool = false
+    
+    private var shouldCopyToPasteboard: Bool {
+        !noCopy
+    }
+    
+    mutating func run() throws {
+        
+        let encoded = try urlString.encodedURLString()
+        print(encoded)
+        
+        if shouldCopyToPasteboard {
+            NSPasteboard.general.addString(encoded)
+            print("Result has been copied to your clipboard. You can use cmd + v to paste it.")
+        }
+        
+    }
+    
 }
 
-private func printHelp() {
-	
-	let help = """
-		megumi is a URL string encoder.
-		Usage:
-		$ megumi URL
-			encode URL with percentage encoding
-		
-		$ megumi option
-			available options:
-			-h / --help: print help
-			-v / --version: print version
-		"""
-	
-	print(help)
-	
-}
-
-private func printError() {
-	
-	let errorMessage = "Invalid arguments. Please enter -h to get help.\n"
-	print(errorMessage)
-	
-}
-
-private func printResult(_ result: String) {
-	
-	print(result)
-	
-}
-
-func parseCommand() {
-	
-	let arguments = Array(CommandLine.arguments.dropFirst())
-	guard arguments.count == 1 else {
-		printError()
-		return
-	}
-	
-	let argument = arguments[0]
-	
-	switch argument {
-	case "-h", "--help":
-		printHelp()
-		
-	case "-v", "--version":
-		printVersion()
-		
-	default:
-		do {
-            let encodedURLString = try argument.encodedURLString()
-			printResult(encodedURLString)
-            NSPasteboard.general.addString(encodedURLString)
-			
-		} catch {
-			printError()
-		}
-		
-	}
-	
-}
-
-parseCommand()
+Megumi.main()
